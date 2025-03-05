@@ -5,7 +5,7 @@ const express = require('express')
 
 const server = express()
 
-server.use('/',(req,res)=>{
+server.use('/hello',(req,res)=>{
     res.send("Hello from the server")
 })
 
