@@ -6,14 +6,15 @@ const express = require('express')
 const server = express()
 
 // when we run this code and check the route '/' this will work fine but when we check the route '/xyz' this will also give the same code  also if i goes to directly '/contact' route then this will show /contact but after that when we give '/' then it not working because code are checking the url in order order will metter alot  also when we give to url '/contact/hello ' this will also show the contact this problem occur ..... 
-
-server.get('/user/:userid/:name/:passward' , (req ,res)=>{
+// server.get('/user/:userid/:name/:passward' , (req ,res)=>{ => this will used for dynamic routing =>http://localhost:5000/user/777/code/12345 => req.params
+    // server.get('/user' , (req ,res)=>{  => this will used for query  => http://localhost:5000/user?uid = 500&name=Atif&pass=1234554321  => req.query 
+server.get('/user' , (req ,res)=>{
 
     // this req.query come from the post man or the url i read the query of url
    // console.log(req.query);
 
    // for dynamic routing we use 
-     console.log(req.params);
+   //  console.log(req.params);
     res.send({name:"Muhammad Atif khan" , email:"abc@gmail.com"})
     res.send('Data successfully fetched')
 })
