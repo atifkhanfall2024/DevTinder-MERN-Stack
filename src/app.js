@@ -45,9 +45,9 @@ server.use('/contact' , (req , res)=>{
       // by using next it will move to the second response but suppose if first one is already present and we also use next() then only first response will be execute not the second one  but if the next() come before the res.send() then it will execute the second response not the first one 
       next()
     } , (req ,res)=>{
-       // res.send('User dashboard')
+        res.send('User dashboard')
         // by using this will throw an error if not any response is present becuase using next will expected the next function but there us no next function will be there 
-        next()
+      //  next()
     })
 
 server.listen(5000 , ()=>{
