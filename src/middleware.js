@@ -1,5 +1,6 @@
 // Why to use middleware ? 
 const express = require('express')
+const { Admindata, Userdata } = require('./middleware/AdminAuth')
 
 const app = express()
 
@@ -33,30 +34,47 @@ app.get('/admin/delete' , (req , res)=>{
 */
 // so think about it if i have admin update profile and writing the same code for every one is making the code difficut 
 // so here the concept of middle ware is come  basically it have a good practice to wwrite app.use for middle ware 
-// this middleware will only called when the route will start from /admin  if i write a route /user then  this will not depend on /admin on admin we have depend /admin/userdata and /admin/deletedata  
-app.use('/admin' , (req , res , next)=>{
-    const token  = 'abc123'
-    const authorized = token==='abc123'
-    if(authorized){
-        console.log('you are auth');
-      next()
-    }
-    else{
-        res.status(401).send('unauthorized access')
-    }
-})
+// this middleware will only called when the route will start from /admin  if i write a route /user then  this will not depend on /admin on admin we have depend /admin/userdata and /admin/deletedata 
+
+
+// Error hanlding this is the important part of our code because when our code is break or some error occur then we need to proper handle it 
+
+// TRY  and Cath is the best way to handle the error we also use app.use("/" , (err,req,res,next)=>{}) but as developer we need to use both 
+
+
+app.use('/admin' ,Admindata )
 app.get('/admin/userdata' , (req,res)=>{
-    res.send("Data fetch successfully from database ")
+
+    // here is an error occur to handle it try and catch and also app.use
+ //   try
+  //  {
+        throw new error("random error occur in your code");
+        res.send("Data fetch successfully from database ")
+  /*  }
+    catch(err){
+        res.status(500).send(err.message)
+    } */
+   
+    
+   
 })
 app.get('/admin/deletedata' , (req,res)=>{
     res.send("Data delete successfully from database ")
 })
 
 // this user is seprate route bcz this is not start with /admin
-
-app.get('/user' , (req,  res)=>{
+// this userdata come form Adminauth file 
+app.get('/user' , Userdata, (req,  res)=>{
+ //   throw new error("Something went wrong")
     res.send('your user route')
 })
+app.use("/" , (err ,req,res ,next)=>{
+    if(err){
+        res.status(500).send('Something went wrong')
+    }
+   
+})
+
 
 app.listen(7777 , ()=>{
     console.log('Listening from the server......');
