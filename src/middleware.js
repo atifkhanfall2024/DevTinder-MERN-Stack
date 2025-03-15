@@ -44,16 +44,16 @@ app.get('/admin/delete' , (req , res)=>{
 
 app.use('/admin' ,Admindata )
 app.get('/admin/userdata' , (req,res)=>{
-
+   
     // here is an error occur to handle it try and catch and also app.use
- //   try
-  //  {
+    try
+    {
         throw new error("random error occur in your code");
         res.send("Data fetch successfully from database ")
-  /*  }
+    }
     catch(err){
         res.status(500).send(err.message)
-    } */
+    } 
    
     
    
@@ -66,6 +66,7 @@ app.get('/admin/deletedata' , (req,res)=>{
 // this userdata come form Adminauth file 
 app.get('/user' , Userdata, (req,  res)=>{
  //   throw new error("Something went wrong")
+ 
     res.send('your user route')
 })
 app.use("/" , (err ,req,res ,next)=>{
