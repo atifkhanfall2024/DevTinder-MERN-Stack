@@ -62,6 +62,59 @@ app.post('/signup' , async (req , res)=>{
   
 })
 
+// Now we get the data from database
+// this is for getting only one user from data base 
+// Difference bw findone() and find method suppose two person with same email and we use find() then this will call the both user and findone() call only one user
+ app.get('/getuser' , async (req,res)=>{
+
+    const userid = req.body.email 
+
+   
+
+    try{
+    //  const data  = await User.find({email:userid}) //it will call more user with same emailid
+
+      // this will give only one user email if we have multiple only give one 
+      const data  = await User.findOne({email:userid})
+
+
+      // this data will give an empty when email not found 
+     // console.log(data)
+      if(data.length===0){
+       res.status(404).send('User not found')
+      } else{
+        res.send(data)
+      }
+   
+    }
+    catch(err){
+      res.status(500).send('Sorry Data not found')
+    }
+
+ })
+
+
+ // getting all users from database 
+
+ app.get('/getAllUsers' , async(req ,res)=>{
+
+     try{
+
+      // find({}) this will use fir getting all users from db
+      // User=> this user is model of mongoose and this user model represne t collection in our database
+      const Allusers = await User.find({})
+      if(Allusers.length===0){
+        res.status(400).send('No Data found in database')
+      }
+      else{
+        res.send(Allusers)
+      }
+     }
+     catch(err){
+      res.status(400).send('Something went wrong')
+     }
+ })
+
 
    Dbconnect().then(()=>{
   //  throw console.error('error');
