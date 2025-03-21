@@ -100,7 +100,7 @@ app.post('/signup' , async (req , res)=>{
 
      try{
 
-      // find({}) this will use fir getting all users from db
+      // find({}) this will use for getting all users from db
       // User=> this user is model of mongoose and this user model represne t collection in our database
       const Allusers = await User.find({})
       if(Allusers.length===0){
@@ -115,7 +115,54 @@ app.post('/signup' , async (req , res)=>{
      }
  })
 
+ // delete api 
+ // we notice here that we donot create an instance for delete api because we donot need
 
+ app.delete('/deleteuser' , async(req ,res)=>{
+    const name = req.body.firstName
+    const userid = req.body.id
+  
+  const user = await User.findByIdAndDelete(userid)
+ // console.log(userid);
+try{
+
+    if(!user){
+      res.status(400).send('User Not found')
+    }
+    res.send(`${name} Data Delete successfully`)
+  
+}
+     catch(err){
+        res.status(400).send('Something went wrong')
+     }
+ })
+
+
+ // now working on update api
+// patch is used when we want to update only specific field
+ // put is used to update the whole document
+
+ app.patch('/updateuser' , async(req,res)=>{
+
+     const uid = req.body.id
+     const data = req.body
+       
+     try{
+
+      // writing new:flase => it works to return an old document in console but in db it will updated
+      // new:true => it will work to retun update document on console as well as db
+    const update =   await User.findByIdAndUpdate(uid , data , {new:true})
+    console.log(update);
+
+      res.send('Data successfully updated')
+     }
+     catch(err){
+      res.status(400).send('Something went wrong')
+     }
+
+ })
+
+ 
    Dbconnect().then(()=>{
   //  throw console.error('error');
     
